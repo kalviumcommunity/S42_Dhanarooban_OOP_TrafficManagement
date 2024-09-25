@@ -23,7 +23,6 @@ class TrafficManagement {
         static int getTotalAccounts() {
             return accountCount;
         }
-    
         // Traffic management logic function
         void TrafficManagementLogic() {
             if (Number_of_vehicles >= 50) {
