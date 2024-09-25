@@ -13,7 +13,6 @@ class TrafficManagement {
     public:
         // Static member variable
         static int accountCount;
-
         // Constructor with dynamic memory allocation
         TrafficManagement(int Number_of_vehicles) {
             this->Number_of_vehicles = Number_of_vehicles;
