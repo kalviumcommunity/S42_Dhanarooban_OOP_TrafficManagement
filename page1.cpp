@@ -11,9 +11,18 @@ class TrafficManagement {
         int Number_of_vehicles;
     
     public:
+        // Static member variable
+        static int accountCount;
+
         // Constructor with dynamic memory allocation
         TrafficManagement(int Number_of_vehicles) {
             this->Number_of_vehicles = Number_of_vehicles;
+            accountCount++;  // Increment static member variable when an object is created
+        }
+
+        // Static member function to get total objects created
+        static int getTotalAccounts() {
+            return accountCount;
         }
     
         // Traffic management logic function
@@ -43,11 +52,15 @@ class TrafficManagement {
             }
         }
 
-        // Destructor to clean up resources (if needed)
+        // Destructor
         ~TrafficManagement() {
             cout << "TrafficManagement object is being destroyed." << endl;
+            accountCount--;  // Decrement static member variable when an object is destroyed
         }
 };
+
+// Define and initialize static member variable outside the class
+int TrafficManagement::accountCount = 0;
 
 int main() {  
     string a[4] = {"Road1", "Road2", "Road3", "Road4"};
@@ -56,15 +69,18 @@ int main() {
     int Number_of_vehicles;
     cout << "Enter the number of vehicles: ";
     cin >> Number_of_vehicles;
-    
     // Dynamically allocating memory for TrafficManagement object using `new`
     TrafficManagement* tm = new TrafficManagement(Number_of_vehicles);
-    
-    // Call the traffic management logic
+    // Display total accounts using static member function
+    cout << "Total Traffic Management objects created: " << TrafficManagement::getTotalAccounts() << endl;
+
     tm->TrafficManagementLogic();
     
-    // Deallocating memory using `delete`
+    // Freeing dynamically allocated memory
     delete tm;
+
+    // Display total accounts after deletion
+    cout << "Total Traffic Management objects remaining: " << TrafficManagement::getTotalAccounts() << endl;
     
     return 0;
 }
