@@ -13,6 +13,7 @@
             
             System.out.print("Enter your Name: ");
             name = scanner.next();
+            
             System.out.print("The OTP is sent to the account's registered mobile number, enter it: ");
             otp = scanner.nextInt(); 
             scanner.close();
