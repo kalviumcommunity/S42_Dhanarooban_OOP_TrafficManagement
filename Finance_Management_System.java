@@ -1,18 +1,25 @@
-import java.util.Scanner;
 
-class BankAcctDetails {
-    public int mainBal; 
-    private int accNum;
-    String name;
-    protected int otp;
+    import java.util.Scanner;
 
-    public void userInfo() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter your Company Account Number: ");
-        accNum = scanner.nextInt();  
-        System.out.print("Enter your Company Name: ");
-        name = scanner.next();
-    }
+    class BankAcctDetails {
+        public int mainBal; 
+        protected int accNum;
+        String name;
+        int otp;
+
+        public void userInfo() {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter your Account Number: ");
+            accNum = scanner.nextInt();  
+            
+            System.out.print("Enter your Name: ");
+            name = scanner.next();
+            
+            System.out.print("The OTP is sent to the account's registered mobile number, enter it: ");
+            otp = scanner.nextInt(); 
+            scanner.close();
+        }
+
 
     public void verifyOTP() {
         Scanner scanner = new Scanner(System.in);
