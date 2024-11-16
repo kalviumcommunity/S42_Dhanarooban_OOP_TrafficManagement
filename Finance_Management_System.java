@@ -46,7 +46,6 @@ class ProcessPayment extends BankAcctDetails {
         amount = scanner.nextDouble();
         mainBal += amount; 
         System.out.println("Deposited: " + amount + ". New balance is: " + mainBal);
-        // System.out.println("Hello " + accNum);
     }
 
     public void withdraw() {
@@ -58,6 +57,7 @@ class ProcessPayment extends BankAcctDetails {
         Reason = scanner.nextLine();
 
         if (amount <= mainBal) {
+
             mainBal -= amount; 
             System.out.println("Withdrawn: " + amount + " for reason: " + Reason);
         } else {
@@ -74,6 +74,7 @@ class Marketing_Team {
 
 public class Finance_Management_System {
     public static void main(String[] args) {
+        
         ProcessPayment account = new ProcessPayment(); 
         Marketing_Team MTP = new Marketing_Team();
         account.userInfo();  
