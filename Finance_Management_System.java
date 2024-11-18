@@ -111,7 +111,7 @@ class ProcessPayment extends BankAcctDetails {
     public void withdraw() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your Withdraw Amount: ");
-        amount = scanner.nextDouble();
+        amount = scanner.nextInt();
         scanner.nextLine(); 
         System.out.print("Enter your Reason for Withdraw Amount: ");
         Reason = scanner.nextLine();
@@ -127,11 +127,19 @@ class ProcessPayment extends BankAcctDetails {
     }
 }
 
+
+
+
+
+
+
+
 class Marketing_Team extends PickYourField {
     public static void display(String teamName, int mainBal) {
         System.out.println("Account Deposited for the " + teamName + " team: " + mainBal);
     }
 }
+
 
 public class Finance_Management_System {
     public static void main(String[] args) {
