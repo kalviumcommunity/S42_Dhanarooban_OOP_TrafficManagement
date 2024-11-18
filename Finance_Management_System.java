@@ -1,10 +1,13 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
-class BankAcctDetails {
+abstract class BankAcctDetails {
     public int mainBal;
     private int accNum;
     public String name;
     protected int otp;
+
+    public abstract void handleTransaction();
 
     public void userInfo() {
         Scanner scanner = new Scanner(System.in);
@@ -36,8 +39,27 @@ class BankAcctDetails {
     }
 }
 
+class PaymentHistory {
+    private ArrayList<String> history;
+
+    public PaymentHistory() {
+        history = new ArrayList<>();
+    }
+
+    public void addTransaction(String transactionDetail) {
+        history.add(transactionDetail);
+    }
+
+    public void displayHistory() {
+        System.out.println("Payment History:");
+        for (String transaction : history) {
+            System.out.println(transaction);
+        }
+    }
+}
+
 class PickYourField extends BankAcctDetails {
-    public String teamName; // Make teamName a class-level variable
+    public String teamName;
 
     public void pickTeam() {
         Scanner scanner = new Scanner(System.in);
@@ -75,11 +97,21 @@ class PickYourField extends BankAcctDetails {
 
         System.out.println("Welcome to the " + teamName + " team!");
     }
+
+    @Override
+    public void handleTransaction() {}
 }
 
 class ProcessPayment extends BankAcctDetails {
     private double amount;
     public String Reason;
+    private PaymentHistory paymentHistory;
+    private double depositedAmount;
+
+    public ProcessPayment() {
+        paymentHistory = new PaymentHistory();
+        depositedAmount = 0;
+    }
 
     public void showMenu() {
         Scanner scanner = new Scanner(System.in);
@@ -94,7 +126,7 @@ class ProcessPayment extends BankAcctDetails {
         if (choice == 1) {
             deposit();
         } else if (choice == 2) {
-            withdraw();
+            withdraw(scanner);
         } else {
             System.out.println("Invalid choice. Please enter 1 or 2.");
         }
@@ -105,41 +137,66 @@ class ProcessPayment extends BankAcctDetails {
         System.out.print("Enter your deposit Amount: ");
         amount = scanner.nextDouble();
         mainBal += amount;
-        System.out.println("Deposited: " + amount + ". New balance is: " + mainBal);
+        depositedAmount += amount; 
+
+        String transactionDetail = "Deposited: " + amount + " to the account. New balance is: " + mainBal;
+        paymentHistory.addTransaction(transactionDetail);
+        System.out.println(transactionDetail);
+
+        
+        askForPayment(scanner);
     }
 
-    public void withdraw() {
-        Scanner scanner = new Scanner(System.in);
+    public void withdraw(Scanner scanner) {
         System.out.print("Enter your Withdraw Amount: ");
-        amount = scanner.nextInt();
-        scanner.nextLine(); 
+        amount = scanner.nextDouble();
+        scanner.nextLine();
         System.out.print("Enter your Reason for Withdraw Amount: ");
         Reason = scanner.nextLine();
-
-        if (amount <= mainBal) {
-            mainBal -= amount;
-            System.out.println("Withdrawn: " + amount + " for reason: " + Reason);
-            System.out.println("New balance is: " + mainBal);
+    
+        if (amount <= depositedAmount) {
+            depositedAmount -= amount; 
+            mainBal -= amount; 
+            String transactionDetail = "Withdrawn: " + amount + " for reason: " + Reason + ". Remaining from deposit amount: " + depositedAmount;
+            paymentHistory.addTransaction(transactionDetail);
+            System.out.println(transactionDetail);
         } else {
-            System.out.println("Insufficient funds!");
-            deposit();
+            System.out.println("You can only withdraw from the deposited amount. Insufficient funds for this withdrawal.");
+            askForPayment(scanner); 
         }
     }
+
+    private void askForPayment(Scanner scanner) {
+        System.out.print("Do you need to make a payment (withdraw) from the deposited amount? (yes/no): ");
+        String response = scanner.next().toLowerCase();
+
+        if (response.equals("yes")) {
+            if (depositedAmount == 0) {
+                System.out.println("You don't have any deposited funds. Please deposit some money first.");
+                deposit(); 
+            } else {
+                withdraw(scanner);
+            }
+        } else {
+            System.out.println("Deposit complete. No payment needed.");
+        }
+    }
+
+
+    public void handleTransaction() {}
+
+    public void endProgram() {
+        System.out.println("Transaction complete. The program will now end.");
+        paymentHistory.displayHistory(); 
+        System.exit(0);
+    }
 }
-
-
-
-
-
-
-
 
 class Marketing_Team extends PickYourField {
     public static void display(String teamName, int mainBal) {
         System.out.println("Account Deposited for the " + teamName + " team: " + mainBal);
     }
 }
-
 
 public class Finance_Management_System {
     public static void main(String[] args) {
@@ -153,6 +210,6 @@ public class Finance_Management_System {
         account.display();
         pick.pickTeam();
         account.showMenu();
-        MTP.display(pick.teamName, account.mainBal); 
+        MTP.display(pick.teamName, account.mainBal);
     }
 }
