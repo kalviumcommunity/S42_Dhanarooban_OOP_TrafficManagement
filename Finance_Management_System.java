@@ -1,6 +1,25 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// Open-Closed Principle A class should be open for extension but closed for modification.
+// BankAcctDetails class:
+// This is an abstract base class 
+// defining the structure of account-related operations 
+// like handleTransaction, 
+// userInfo, 
+// verifyOTP, and 
+// display.
+// It allows subclasses like ProcessPayment and PickYourField 
+// to extend its functionalities without modifying the base class.
+// PickYourField and ProcessPayment:
+
+// These subclasses extend BankAcctDetails and implement specific functionalities like selecting a team and handling deposits/withdrawals.
+// PaymentHistory:
+
+// This class encapsulates transaction details. It allows us to add transactions (addTransaction) or display them (displayHistory) without modifying other parts of the system.
+
+
+
 abstract class BankAcctDetails {
     public int mainBal;
     private int accNum;
@@ -11,11 +30,13 @@ abstract class BankAcctDetails {
 
     public void userInfo() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter your Company Account Number: ");
+        System.out.print("Enter your Bank Company Account Number: ");
         accNum = scanner.nextInt();
         System.out.print("Enter your Company Name: ");
         name = scanner.next();
     }
+
+    
 
     public void verifyOTP() {
         Scanner scanner = new Scanner(System.in);
@@ -58,6 +79,7 @@ class PaymentHistory {
     }
 }
 
+
 class PickYourField extends BankAcctDetails {
     public String teamName;
 
@@ -71,7 +93,7 @@ class PickYourField extends BankAcctDetails {
         System.out.println("5. Finance");
 
         System.out.print("Enter the number corresponding to your team: ");
-        int choice = scanner.nextInt();
+        int choice = scanner.nextInt(); 
 
         switch (choice) {
             case 1:
@@ -95,10 +117,10 @@ class PickYourField extends BankAcctDetails {
                 return;
         }
 
-        System.out.println("Welcome to the " + teamName + " team!");
+        System.out.println("Welcome" + teamName + " team!");
     }
 
-    @Override
+
     public void handleTransaction() {}
 }
 
@@ -194,7 +216,7 @@ class ProcessPayment extends BankAcctDetails {
 
 class Marketing_Team extends PickYourField {
     public static void display(String teamName, int mainBal) {
-        System.out.println("Account Deposited for the " + teamName + " team: " + mainBal);
+        System.out.println("Account remaining amount from " + teamName + " team: " + mainBal);
     }
 }
 
